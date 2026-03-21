@@ -1,5 +1,15 @@
 <template>
     <div class="home-container">
+        <CyberBackground />
+
+        <!-- 视差背景层 -->
+       <ParallaxLayer :speed="0.15" :zIndex="-2">
+            <img src="/parallax/layer1.png" class="p-layer" />
+        </ParallaxLayer>
+
+        <ParallaxLayer :speed="0.25" :zIndex="-1">
+            <img src="/parallax/layer2.png" class="p-layer" />
+        </ParallaxLayer>
         <!-- 1. 3D 头像卡片 -->
         <section class="hero-section">
             <FuturisticCard>
@@ -57,6 +67,7 @@
 <script setup lang="ts">
 import FuturisticCard from '../components/FuturisticCard.vue'
 import ScrollReveal from '../components/ScrollReveal.vue'
+import ParallaxLayer from '../components/parallax/ParallaxLayer.vue'
 </script>
 
 <style scoped>
@@ -85,6 +96,18 @@ import ScrollReveal from '../components/ScrollReveal.vue'
     font-size: 42px;
     font-family: 'Orbitron', sans-serif;
     color: #00eaff;
+    text-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff;
+    animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #00eaff;
+    }
+
+    to {
+        text-shadow: 0 0 25px #00eaff, 0 0 40px #00eaff;
+    }
 }
 
 .hero-subtitle {
@@ -161,5 +184,33 @@ import ScrollReveal from '../components/ScrollReveal.vue'
 .menu-card:hover {
     box-shadow: 0 0 20px #00eaff;
     transform: translateY(-5px);
+}
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -200%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(to bottom,
+            transparent,
+            rgba(0, 234, 255, 0.2),
+            transparent);
+    animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
 }
 </style>

@@ -11,4 +11,5 @@ import DefaultLayout from './layouts/DefaultLayout.vue'
 <style>
 @import './styles/base.css';
 @import './styles/animations.css';
+@import './styles/theme.css';
 </style>

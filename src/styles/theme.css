@@ -1,0 +1,19 @@
+:root {
+    /* 默认 Dark 主题 */
+    --bg-color: #0d0d0d;
+    --text-color: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(0, 234, 255, 0.4);
+    --neon-color: #00eaff;
+    --shadow-color: #00eaff;
+}
+
+[data-theme="cyber"] {
+    /* Cyber 主题：更亮、更霓虹、更赛博 */
+    --bg-color: #020b14;
+    --text-color: #dffbff;
+    --card-bg: rgba(0, 255, 255, 0.08);
+    --border-color: rgba(0, 255, 255, 0.8);
+    --neon-color: #00faff;
+    --shadow-color: #00faff;
+}

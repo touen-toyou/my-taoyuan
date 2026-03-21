@@ -1,6 +1,7 @@
 <template>
     <div class="layout">
         <Navbar />
+        <ThemeToggle />
 
         <main class="content">
             <slot />
@@ -10,7 +11,9 @@
 
 <script setup lang="ts">
 import Navbar from '../components/Navbar.vue'
+import ThemeToggle from '../components/ThemeToggle.vue'
 </script>
+
 
 <style scoped>
 .layout {
