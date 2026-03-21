@@ -1,7 +1,14 @@
+<template>
+  <DefaultLayout>
+    <router-view />
+  </DefaultLayout>
+</template>
+
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import DefaultLayout from './layouts/DefaultLayout.vue'
 </script>
 
-<template>
-  <HelloWorld />
-</template>
+<style>
+@import './styles/base.css';
+@import './styles/animations.css';
+</style>
