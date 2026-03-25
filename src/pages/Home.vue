@@ -1,42 +1,35 @@
 <template>
     <div class="home-container">
-        <CyberBackground />
 
-        <!-- 视差背景层 -->
-       <ParallaxLayer :speed="0.15" :zIndex="-2">
-            <img src="/parallax/layer1.png" class="p-layer" />
-        </ParallaxLayer>
+        <!-- 第一屏：3D 头像卡片 -->
+        <ScrollScreen>
+            <div class="hero">
+                <div class="hero-card" @mousemove="onMove" @mouseleave="reset">
+                    <img src="/avatar.png" class="avatar-img" />
+                </div>
 
-        <ParallaxLayer :speed="0.25" :zIndex="-1">
-            <img src="/parallax/layer2.png" class="p-layer" />
-        </ParallaxLayer>
-        <!-- 1. 3D 头像卡片 -->
-        <section class="hero-section">
-            <FuturisticCard>
-                <img src="/avatar.png" alt="avatar" class="avatar-img" />
-            </FuturisticCard>
+                <h1 class="hero-title">涛远 Taoyuan</h1>
+                <p class="hero-subtitle">未来感 · 创造力 · 技术驱动</p>
+            </div>
+        </ScrollScreen>
 
-            <h1 class="hero-title">涛远 Taoyuan</h1>
-            <p class="hero-subtitle">未来感 · 创造力 · 技术驱动</p>
-        </section>
-
-        <!-- 2. 简介区块（Scroll Reveal） -->
-        <ScrollReveal>
-            <section class="intro-section">
+        <!-- 第二屏：第一段介绍 -->
+        <ScrollScreen>
+            <div class="intro">
                 <img src="/intro1.jpg" class="intro-img" />
                 <div class="intro-text">
                     <h2>关于我</h2>
                     <p>
                         我是涛远，一名热爱技术与设计的创造者。
-                        我喜欢把未来感的视觉风格与现代前端技术结合，打造独特的数字体验。
+                        我喜欢把未来感、创造力和技术驱动结合，呈现独特的视觉体验。
                     </p>
                 </div>
-            </section>
-        </ScrollReveal>
+            </div>
+        </ScrollScreen>
 
-        <!-- 3. 第二段介绍 -->
-        <ScrollReveal>
-            <section class="intro-section reverse">
+        <!-- 第三屏：第二段介绍 -->
+        <ScrollScreen>
+            <div class="intro reverse">
                 <div class="intro-text">
                     <h2>我的理念</h2>
                     <p>
@@ -45,12 +38,12 @@
                     </p>
                 </div>
                 <img src="/intro2.jpg" class="intro-img" />
-            </section>
-        </ScrollReveal>
+            </div>
+        </ScrollScreen>
 
-        <!-- 4. 菜单入口 -->
-        <ScrollReveal>
-            <section class="menu-section">
+        <!-- 第四屏：菜单入口 -->
+        <ScrollScreen>
+            <div class="menu">
                 <h2 class="menu-title">探索更多</h2>
 
                 <div class="menu-grid">
@@ -59,55 +52,75 @@
                     <router-link to="/blog" class="menu-card">博客 Blog</router-link>
                     <router-link to="/gallery" class="menu-card">相册 Gallery</router-link>
                 </div>
-            </section>
-        </ScrollReveal>
+            </div>
+        </ScrollScreen>
+
     </div>
 </template>
 
 <script setup lang="ts">
-import FuturisticCard from '../components/FuturisticCard.vue'
-import ScrollReveal from '../components/ScrollReveal.vue'
-import ParallaxLayer from '../components/parallax/ParallaxLayer.vue'
-</script>
+import ScrollScreen from '../components/ScrollScreen.vue'
 
-<style scoped>
-.home-container {
-    width: 100%;
-    color: white;
-    background: #0d0d0d;
-    padding-bottom: 100px;
+function onMove(e: MouseEvent) {
+    const el = e.currentTarget as HTMLElement
+    const rect = el.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const rotateY = ((x / rect.width) - 0.5) * 20
+    const rotateX = ((y / rect.height) - 0.5) * -20
+
+    el.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`
 }
 
-/* Hero Section */
-.hero-section {
+function reset(e: MouseEvent) {
+    const el = e.currentTarget as HTMLElement
+    el.style.transform = `rotateY(0deg) rotateX(0deg)`
+}
+</script>
+
+<style>
+.home-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+/* 第一屏：3D 卡片 */
+.hero {
     text-align: center;
-    padding-top: 120px;
+}
+
+.hero-card {
+    width: 220px;
+    height: 220px;
+    margin: auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 234, 255, 0.4);
+    box-shadow: 0 0 20px #00eaff;
+    transition: 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.hero-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #00eaff;
 }
 
 .avatar-img {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
     object-fit: cover;
 }
 
 .hero-title {
     margin-top: 20px;
     font-size: 42px;
-    font-family: 'Orbitron', sans-serif;
     color: #00eaff;
-    text-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff;
-    animation: glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    from {
-        text-shadow: 0 0 10px #00eaff;
-    }
-
-    to {
-        text-shadow: 0 0 25px #00eaff, 0 0 40px #00eaff;
-    }
 }
 
 .hero-subtitle {
@@ -116,16 +129,15 @@ import ParallaxLayer from '../components/parallax/ParallaxLayer.vue'
     opacity: 0.8;
 }
 
-/* Intro Sections */
-.intro-section {
+/* 介绍区 */
+.intro {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 40px;
-    padding: 120px 10%;
+    padding: 0 10%;
 }
 
-.intro-section.reverse {
+.intro.reverse {
     flex-direction: row-reverse;
 }
 
@@ -150,10 +162,9 @@ import ParallaxLayer from '../components/parallax/ParallaxLayer.vue'
     opacity: 0.9;
 }
 
-/* Menu Section */
-.menu-section {
+/* 菜单入口 */
+.menu {
     text-align: center;
-    padding: 100px 0;
 }
 
 .menu-title {
@@ -178,39 +189,30 @@ import ParallaxLayer from '../components/parallax/ParallaxLayer.vue'
     text-decoration: none;
     font-size: 20px;
     transition: 0.3s;
-    box-shadow: 0 0 10px transparent;
 }
 
 .menu-card:hover {
-    box-shadow: 0 0 20px #00eaff;
     transform: translateY(-5px);
-}
-.hero-section {
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 0 20px #00eaff;
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: -200%;
-    left: 0;
-    width: 100%;
-    height: 200%;
-    background: linear-gradient(to bottom,
-            transparent,
-            rgba(0, 234, 255, 0.2),
-            transparent);
-    animation: scan 6s linear infinite;
-}
-
-@keyframes scan {
-    0% {
-        transform: translateY(-100%);
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .intro {
+        flex-direction: column;
+        text-align: center;
     }
 
-    100% {
-        transform: translateY(100%);
+    .intro.reverse {
+        flex-direction: column;
+    }
+
+    .intro-img {
+        width: 80%;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>

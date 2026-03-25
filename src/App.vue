@@ -1,15 +1,20 @@
 <template>
-  <DefaultLayout>
+  <component :is="layout">
     <router-view />
-  </DefaultLayout>
+  </component>
 </template>
 
 <script setup lang="ts">
-import DefaultLayout from './layouts/DefaultLayout.vue'
-</script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-<style>
-@import './styles/base.css';
-@import './styles/animations.css';
-@import './styles/theme.css';
-</style>
+import DefaultLayout from './layouts/DefaultLayout.vue'
+import HomeLayout from './layouts/HomeLayout.vue'
+
+const route = useRoute()
+
+// 首页使用 HomeLayout，其它页面使用 DefaultLayout
+const layout = computed(() => {
+  return route.path === '/' ? HomeLayout : DefaultLayout
+})
+</script>
